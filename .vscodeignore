@@ -1,0 +1,14 @@
+.vscode/**
+.vscode-test/**
+out/test/**
+test/**
+testResources/**
+images/**
+src/**
+**/*.map
+.gitignore
+tsconfig.json
+tslint.json
+vsc-extension-quickstart.md
+.travis.yml
+*.log
