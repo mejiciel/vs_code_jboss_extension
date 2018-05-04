@@ -112,7 +112,7 @@ export class JbossController {
             fse.mkdirs(path.join(catalinaBasePath, 'temp')),
             fse.mkdirs(path.join(catalinaBasePath, 'work'))
         ]);
-        await Utility.copyServerConfig(path.join(jbossInstallPath, 'conf', 'server.xml'), path.join(catalinaBasePath, 'conf', 'server.xml'));
+        //await Utility.copyServerConfig(path.join(jbossInstallPath, 'conf', 'server.xml'), path.join(catalinaBasePath, 'conf', 'server.xml'));
         const jbossServer: JbossServer = new JbossServer(serverName, jbossInstallPath, catalinaBasePath);
         Utility.trackTelemetryStep('add server');
         this._jbossModel.addServer(jbossServer);
