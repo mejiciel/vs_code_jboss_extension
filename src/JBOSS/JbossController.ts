@@ -104,7 +104,7 @@ export class JbossController {
         await fse.remove(catalinaBasePath);
         Utility.trackTelemetryStep('copy files');
         await Promise.all([
-            fse.copy(path.join(jbossInstallPath, jbossConst.JBOSS_STANDALONE_CONF_PATH), path.join(catalinaBasePath, 'conf')),
+            fse.copy(path.join(jbossInstallPath, jbossConst.JBOSS_STANDALONE_CONF_PATH), path.join(catalinaBasePath, jbossConst.JBOSS_STANDALONE_CONF_DIR)),
             fse.copy(path.join(this._extensionPath, 'resources', 'jvm.options'), path.join(catalinaBasePath, 'jvm.options')),
             fse.copy(path.join(this._extensionPath, 'resources', 'index.jsp'), path.join(catalinaBasePath, 'webapps', 'ROOT', 'index.jsp')),
             fse.copy(path.join(this._extensionPath, 'resources', 'icon.png'), path.join(catalinaBasePath, 'webapps', 'ROOT', 'icon.png')),

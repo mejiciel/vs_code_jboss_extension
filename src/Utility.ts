@@ -154,7 +154,11 @@ export namespace Utility {
         try {
             const jsonObj: any = await parseXml(xml);
             if (kind === Constants.PortKind.Server) {
-                port = jsonObj.Server.$.port;
+                let x:any =jsonObj.server['socket-binding-group'][0]['socket-binding'];
+                var z =x.find((item:any)=>item.$.name=='management-http');
+                var y:any=(<string>z.$.port).match(/\${(.*):(\d+)}/g);
+                console.log(x);
+                port = '9990';// jsonObj.server['socket-binding-group'].find((item:any)=>(item.name=='management-http')).port;
             } else if (kind === Constants.PortKind.Http) {
                 port = jsonObj.Server.Service.find((item: any) => item.$.name === Constants.CATALINA).Connector.find((item: any) =>
                     (item.$.protocol === undefined || item.$.protocol.startsWith(Constants.HTTP))).$.port;

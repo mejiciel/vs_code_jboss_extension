@@ -23,7 +23,7 @@ export class JbossServer extends vscode.TreeItem implements vscode.QuickPickItem
         super(_name);
         this.label = _name;
         this.jvmOptionFile = path.join(this._storagePath, Constants.JVM_OPTION_FILE);
-        this._configurationPath = path.join(this._storagePath, jbossConst.JBOSS_STANDALONE_CONF_DIR, jbossConst.JBOSS_STANDALONE_DIR);
+        this._configurationPath = path.join(this._storagePath, jbossConst.JBOSS_STANDALONE_CONF_DIR, jbossConst.JBOSS_STANDALONE_CONF_XML);
     }
 
     public setDebugInfo(debugging: boolean, port: number, workspace: vscode.WorkspaceFolder): void {
