@@ -10,3 +10,31 @@
 
 #-Xms${heap.min}
 #-Xmx${heap.max}
+
+
+-Dprogram.name="${server.name}"
+-server
+-Xms1024m
+-Xmx1024m
+-XX:MaxPermSize=1024m
+-Dorg.jboss.resolver.warning=true
+-Djava.net.preferIPv4Stack=true
+-Dsun.rmi.dgc.client.gcInterval=3600000
+-Dsun.rmi.dgc.server.gcInterval=3600000
+-Djboss.modules.system.pkgs=org.jboss.byteman
+-Djava.awt.headless=true 
+-Dorg.jboss.boot.log.file=${server.home}\standalone\log\boot.log
+-Dlogging.configuration=file:${server.home}\standalone\configuration\logging.properties
+-Djboss.home.dir=${server.home}
+-Dorg.jboss.logmanager.nocolor=true
+-Djboss.bind.address.management=localhost
+-Dfile.encoding=Cp1252
+-classpath "${server.home}\jboss-modules.jar;${java.home}\resources.jar;${java.home}\jre\lib\rt.jar;${java.home}\jre\lib\jsse.jar;${java.home}\jre\lib\jce.jar;${java.home}\jre\lib\charsets.jar;${java.home}\jre\lib\jfr.jar" 
+${jbossConst.BOOTSTRAP_CLASS}
+-mp "${server.home}\modules"
+-jaxpmodule javax.xml.jaxp-provider
+-jaxpmodule javax.xml.jaxp-provider org.jboss.as.standalone
+-b localhost
+--server-config=standalone.xml 
+-Djboss.server.base.dir=${server.home}\standalone
+-Dmsg.appmsg.PropertiesFile="${server.home}\standalone\configuration\IFastMsg.properties"

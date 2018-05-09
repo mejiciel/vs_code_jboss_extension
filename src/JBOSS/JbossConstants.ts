@@ -8,3 +8,4 @@ export const JBOSS_STANDALONE_DEPLOY_PATH : string = JBOSS_STANDALONE_DIR+'\\'+J
 export const JBOSS_BIN_DIR:string = 'bin';
 export const JBOSS_MODULE_DIR:string='modules';
 export const JBOSS_BOOTSTRAP_JAR:string='jboss-modules.jar';
+export const BOOTSTRAP_CLASS: string = 'org.jboss.modules.Main';

@@ -153,21 +153,28 @@ export namespace Utility {
         let port: string;
         try {
             const jsonObj: any = await parseXml(xml);
+            var z =jsonObj.server['socket-binding-group'][0]['socket-binding'];
             if (kind === Constants.PortKind.Server) {
-                let x:any =jsonObj.server['socket-binding-group'][0]['socket-binding'];
-                var z =x.find((item:any)=>item.$.name=='management-http');
-                var y:any=(<string>z.$.port).match(/\${(.*):(\d+)}/g);
-                console.log(x);
-                port = '9990';// jsonObj.server['socket-binding-group'].find((item:any)=>(item.name=='management-http')).port;
+                var y=z.find((item:any)=>item.$.name=='management-http');
+                var regex:RegExp=new RegExp(/\${(.*):(\d+)}/g);
+                if(regex!=null)
+                {
+                    port=regex.exec(<string>y.$.port)[2];
+                    console.log('Found server port:'+port);
+                }
+                else 
+                    throw new Error('Server Port not found');
+                
             } else if (kind === Constants.PortKind.Http) {
-                port = jsonObj.Server.Service.find((item: any) => item.$.name === Constants.CATALINA).Connector.find((item: any) =>
-                    (item.$.protocol === undefined || item.$.protocol.startsWith(Constants.HTTP))).$.port;
+                port = z.find((item:any)=>item.$.name==Constants.PortKind.Http).$.port;
+                console.log('Found Http Port:'+port);
             } else if (kind === Constants.PortKind.Https) {
-                port = jsonObj.Server.Service.find((item: any) => item.$.name === Constants.CATALINA).Connector.find((item: any) =>
-                    (item.$.SSLEnabled.toLowerCase() === 'true')).$.port;
+                port = z.find((item:any)=>item.$.name==Constants.PortKind.Https).$.port;
+                console.log('Found Https Port:'+port);
             }
         } catch (err) {
             port = undefined;
+            console.error(err);
         }
         return port;
     }

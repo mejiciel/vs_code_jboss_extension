@@ -13,6 +13,8 @@ export class JbossServer extends vscode.TreeItem implements vscode.QuickPickItem
     public description: string;
     public jvmOptions: string[];
     public jvmOptionFile: string;
+    public name:string;
+    public home:string;
     private _state: ServerState = ServerState.IdleServer;
     private _isDebugging: boolean = false;
     private _debugPort: number;
@@ -22,7 +24,10 @@ export class JbossServer extends vscode.TreeItem implements vscode.QuickPickItem
     constructor(private _name: string, private _installPath: string, private _storagePath: string) {
         super(_name);
         this.label = _name;
+        this.name=_name;
+        this.home = _installPath;
         this.jvmOptionFile = path.join(this._storagePath, Constants.JVM_OPTION_FILE);
+        
         this._configurationPath = path.join(this._storagePath, jbossConst.JBOSS_STANDALONE_CONF_DIR, jbossConst.JBOSS_STANDALONE_CONF_XML);
     }
 

@@ -5,6 +5,7 @@ import * as _ from "lodash";
 import * as path from "path";
 import * as vscode from "vscode";
 import * as Constants from "../Constants";
+import * as jbossConst from "../JBOSS/JbossConstants";
 import { Utility } from "../Utility";
 import { JbossServer } from "./JbossServer";
 
@@ -38,23 +39,25 @@ export class JbossModel {
 
     public async updateJVMOptions(serverName: string) : Promise<void> {
         const server: JbossServer = this.getJbossServer(serverName);
-        const installPath: string = server.getInstallPath();
+        /*const installPath: string = server.getInstallPath();
         const catalinaBase: string = server.getStoragePath();
-        const bootStrap: string = path.join(installPath, 'bin', 'bootstrap.jar');
+        const bootStrap: string = path.join(installPath, 'jboss-modules.jar');
         const jboss: string = path.join(installPath, 'bin', 'jboss-juli.jar');
+        
         let result: string[] = [
             `${Constants.CLASS_PATH_KEY} "${[bootStrap, jboss].join(path.delimiter)}"`,
-            `${Constants.CATALINA_BASE_KEY}="${catalinaBase}"`,
-            `${Constants.CATALINA_HOME_KEY}="${installPath}"`,
+            `${Constants.JBOSS_BASE_KEY}="${catalinaBase}"`,
+            `${Constants.JBOSS_HOME_KEY}="${installPath}"`,
             `${Constants.ENCODING}`
         ];
 
         if (!await fse.pathExists(server.jvmOptionFile)) {
             server.jvmOptions = result.concat([Constants.BOOTSTRAP_FILE, '"$@"']);
             return;
-        }
+        }*/
         const filterFunction: (para: string) => boolean = (para: string): boolean => {
-            if (!para.startsWith('-')) {
+            if (!(para.startsWith('-') || para.startsWith('${'))) {
+                console.log(para);
                 return false;
             }
             let valid: boolean = true;
@@ -66,14 +69,15 @@ export class JbossModel {
             });
             return valid;
         };
-        result = result.concat(await Utility.readFileLineByLine(server.jvmOptionFile, filterFunction));
-        const tmpDirConfiguration: string = result.find((element: string) => {
+       let result:string[] = await Utility.readFileLineByLine(server.jvmOptionFile, filterFunction);
+       server.jvmOptions=result;
+        /*const tmpDirConfiguration: string = result.find((element: string) => {
             return element.indexOf(Constants.JAVA_IO_TEMP_DIR_KEY) >= 0;
         });
         if (!tmpDirConfiguration) {
             result = result.concat(`${Constants.JAVA_IO_TEMP_DIR_KEY}="${path.join(catalinaBase, 'temp')}"`);
         }
-        server.jvmOptions = result.concat([Constants.BOOTSTRAP_FILE, '"$@"']);
+        server.jvmOptions = result.concat([Constants.BOOTSTRAP_FILE, '"$@"']);*/
     }
 
     public deleteServer(jbossServer: JbossServer): boolean {
