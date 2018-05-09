@@ -158,7 +158,7 @@ export class JbossController {
                 return;
             }
             Utility.trackTelemetryStep(restart ? 'restart' : 'stop');
-            await Utility.executeCMD(this._outputChannel, jbossServer.getName(), 'java', { shell: true }, ...server.jvmOptions.concat('stop'));
+            await Utility.executeCMD(this._outputChannel, jbossServer.getName(), jbossServer.java_home+'\\bin\\'+'java', { shell: true }, ...server.jvmOptions.concat('stop'));
             if (!restart) {
                 server.clearDebugInfo();
             }
@@ -356,7 +356,7 @@ export class JbossController {
                 startArguments = [`${Constants.DEBUG_ARGUMENT_KEY}${serverInfo.getDebugPort()}`].concat(startArguments);
             }
             //startArguments.push('start');
-            const javaProcess: Promise<void> = Utility.executeCMD(this._outputChannel, serverInfo.getName(), 'java', { shell: true }, ...startArguments);
+            const javaProcess: Promise<void> = Utility.executeCMD(this._outputChannel, serverInfo.getName(), serverInfo.java_home+'\\bin\\'+'java', { shell: true }, ...startArguments);
             serverInfo.setStarted(true);
             this.startDebugSession(serverInfo);
             await javaProcess;
