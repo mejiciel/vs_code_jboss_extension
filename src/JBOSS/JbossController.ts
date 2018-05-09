@@ -355,7 +355,7 @@ export class JbossController {
             if (serverInfo.getDebugPort()) {
                 startArguments = [`${Constants.DEBUG_ARGUMENT_KEY}${serverInfo.getDebugPort()}`].concat(startArguments);
             }
-            startArguments.push('start');
+            //startArguments.push('start');
             const javaProcess: Promise<void> = Utility.executeCMD(this._outputChannel, serverInfo.getName(), 'java', { shell: true }, ...startArguments);
             serverInfo.setStarted(true);
             this.startDebugSession(serverInfo);

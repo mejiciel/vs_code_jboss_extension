@@ -5,7 +5,7 @@ import * as _ from "lodash";
 import * as path from "path";
 import * as vscode from "vscode";
 import * as Constants from "../Constants";
-import * as jbossConst from "../JBOSS/JbossConstants";
+import * as jbossConst from "./JbossConstants";
 import { Utility } from "../Utility";
 import { JbossServer } from "./JbossServer";
 
@@ -39,6 +39,7 @@ export class JbossModel {
 
     public async updateJVMOptions(serverName: string) : Promise<void> {
         const server: JbossServer = this.getJbossServer(serverName);
+        var t=jbossConst.BOOTSTRAP_CLASS;
         /*const installPath: string = server.getInstallPath();
         const catalinaBase: string = server.getStoragePath();
         const bootStrap: string = path.join(installPath, 'jboss-modules.jar');
@@ -61,15 +62,19 @@ export class JbossModel {
                 return false;
             }
             let valid: boolean = true;
-            Constants.JVM_DEFAULT_OPTIONS_KEYS.forEach((key: string) => {
+            /*Constants.JVM_DEFAULT_OPTIONS_KEYS.forEach((key: string) => {
                 if (para.startsWith(key)) {
                     valid = false;
                     return;
                 }
-            });
+            });*/
             return valid;
         };
+        
        let result:string[] = await Utility.readFileLineByLine(server.jvmOptionFile, filterFunction);
+       result=result.map(str =>eval('`'+str+'`'));
+       result.forEach(x=>console.log(x));
+       // 
        server.jvmOptions=result;
         /*const tmpDirConfiguration: string = result.find((element: string) => {
             return element.indexOf(Constants.JAVA_IO_TEMP_DIR_KEY) >= 0;

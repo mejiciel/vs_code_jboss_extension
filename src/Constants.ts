@@ -34,6 +34,7 @@ export const WAR_FILE_EXTENSION: string = '.war';
 
 export const JVM_DEFAULT_OPTIONS_KEYS: string[] = [CLASS_PATH_KEY, JBOSS_BASE_KEY, JBOSS_HOME_KEY];
 
+
 export enum ServerState {
     RunningServer = 'runningserver',
     IdleServer = 'idleserver'

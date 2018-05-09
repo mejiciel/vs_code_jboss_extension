@@ -15,6 +15,7 @@ export class JbossServer extends vscode.TreeItem implements vscode.QuickPickItem
     public jvmOptionFile: string;
     public name:string;
     public home:string;
+    public java_home:string;
     private _state: ServerState = ServerState.IdleServer;
     private _isDebugging: boolean = false;
     private _debugPort: number;
@@ -26,6 +27,13 @@ export class JbossServer extends vscode.TreeItem implements vscode.QuickPickItem
         this.label = _name;
         this.name=_name;
         this.home = _installPath;
+        //this.java_home
+        let t=vscode.workspace.getConfiguration();
+        if(t.java ==undefined)
+        {
+            throw new Error('Java not enable, please install java extension and configure java.home');
+        }
+        this.java_home=t.java.home;
         this.jvmOptionFile = path.join(this._storagePath, Constants.JVM_OPTION_FILE);
         
         this._configurationPath = path.join(this._storagePath, jbossConst.JBOSS_STANDALONE_CONF_DIR, jbossConst.JBOSS_STANDALONE_CONF_XML);

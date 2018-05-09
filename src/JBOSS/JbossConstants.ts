@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 export const JBOSS_STANDALONE_CONF_DIR:string = "configuration";
 export const JBOSS_STANDALONE_DEPLOY_DIR:string='deployments';
 export const JBOSS_STANDALONE_CONF_XML:string = "standalone.xml";
