@@ -18,6 +18,7 @@ import { Utility } from "../Utility";
 import { JbossModel } from "./JbossModel";
 import { JbossServer } from "./JbossServer";
 import { WarPackage } from "./WarPackage";
+import * as child_process from "child_process";
 
 export class JbossController {
     private _outputChannel: vscode.OutputChannel;
@@ -356,10 +357,12 @@ export class JbossController {
                 startArguments = [`${Constants.DEBUG_ARGUMENT_KEY}${serverInfo.getDebugPort()}`].concat(startArguments);
             }
             //startArguments.push('start');
-            const javaProcess: Promise<void> = Utility.executeCMD(this._outputChannel, serverInfo.getName(), serverInfo.java_home+'\\bin\\'+'java', { shell: true }, ...startArguments);
+            const javaProcessPromise: Promise<child_process.ChildProcess> = Utility.executeCMD(this._outputChannel, serverInfo.getName(), serverInfo.java_home+'\\bin\\'+'java', { shell: true }, ...startArguments);
             serverInfo.setStarted(true);
             this.startDebugSession(serverInfo);
-            await javaProcess;
+            let javaProcess:child_process.ChildProcess= await javaProcessPromise;
+            serverInfo.java_process=javaProcess;
+            
             serverInfo.setStarted(false);
             watcher.close();
             if (serverInfo.needRestart) {

@@ -6,6 +6,7 @@ import * as Constants from "../Constants";
 import * as jbossConst from "./JbossConstants";
 import { ServerState } from "../Constants";
 import { Utility } from "../Utility";
+import * as child_process from "child_process";
 
 export class JbossServer extends vscode.TreeItem implements vscode.QuickPickItem {
     public needRestart: boolean = false;
@@ -16,6 +17,7 @@ export class JbossServer extends vscode.TreeItem implements vscode.QuickPickItem
     public name:string;
     public home:string;
     public java_home:string;
+    public java_process:child_process.ChildProcess;
     private _state: ServerState = ServerState.IdleServer;
     private _isDebugging: boolean = false;
     private _debugPort: number;

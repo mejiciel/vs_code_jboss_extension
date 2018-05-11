@@ -16,8 +16,8 @@ import { localize } from './localize';
 
 /* tslint:disable:no-any */
 export namespace Utility {
-    export async function executeCMD(outputPane: vscode.OutputChannel, serverName: string, command: string, options: child_process.SpawnOptions, ...args: string[]): Promise<void> {
-        await new Promise((resolve: () => void, reject: (e: Error) => void): void => {
+    export async function executeCMD(outputPane: vscode.OutputChannel, serverName: string, command: string, options: child_process.SpawnOptions, ...args: string[]): Promise<child_process.ChildProcess> {
+        return await new Promise<child_process.ChildProcess>((resolve, reject) => {
             outputPane.show();
             let stderr: string = '';
             const p: child_process.ChildProcess = child_process.spawn(command, args, options);
@@ -34,9 +34,13 @@ export namespace Utility {
                 if (code !== 0) {
                     reject(new Error(localize('jbossExt.commandfailed', 'Command failed with exit code {0}', code)));
                 }
-                resolve();
+                resolve(null);
             });
+
+            resolve(p);
+            
         });
+        
     }
 
     export async function openFile(file: string): Promise<void> {
